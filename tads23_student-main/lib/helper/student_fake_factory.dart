@@ -1,14 +1,13 @@
 import 'package:faker_dart/faker_dart.dart';
-import 'package:tads23_student/domain/entities/student_tads_entidy.dart';
 
-import '../domain/entities/student_tads_entidy.dart';
+import '../domain/entities/student_tads_entity.dart';
 
-abstract class StudenteFakeFactory {
-  static StudentTadsEntidy factory() {
+abstract class StudentFakeFactory {
+  static StudentTadsEntity factory() {
     final faker = Faker.instance;
     faker.setLocale(FakerLocaleType.pt_PT);
 
-    var instance = StudentTadsEntidy(
+    var instance = StudentTadsEntity(
       name: faker.name.fullName(),
       address: faker.address.streetAddress(useFullAddress: true),
       phone: faker.phoneNumber.phoneNumber(),
