@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool _isEditing = false;
 
   @override
-  void InitState() {
+  void initState() {
     super.initState();
     viewController = injector.get<HomePageController>();
     viewController.load.execute();
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       end: 0.9,
       ).animate(CurvedAnimation(
         parent: _animationController,
-        curve:));
+        curve: Curves.easeInOut));
   }
 
   @override
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
 
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               width: 250,
               height: 250,
               decoration: BoxDecoration(
-                color: theme.colorScheme.secondary.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
             ),
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               width: 250,
               height: 250,
               decoration: BoxDecoration(
-                color: theme.colorScheme.secondary.withOpacity(0.1),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
             ),
