@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tads23_student/common/config/dependencies.dart';
 import 'package:tads23_student/ui/controllers/home_page_controller.dart';
+import 'package:tads23_student/ui/widgets/card_tads_student_widget.dart';
+import 'package:tads23_student/ui/widgets/editing_student_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,7 +11,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late HomePageController viewController;
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -32,12 +35,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     // cria uma animação com efeito de zoom in/out
     // _animationController.forward(); Encolhe o card
     // _animationController.reverse(); volta ao normal
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.9,
-      ).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -50,14 +50,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _toggleEditMode() {
     setState(() {
       _isEditing = !_isEditing;
-      if(_isEditing) {
+      if (_isEditing) {
         _animationController.forward();
       } else {
         _animationController.reverse();
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +68,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {},
-            tooltip: 'Edit Information',
+            //icon: const Icon(Icons.edit),
+            icon: Icon(
+              _isEditing ? Icons.close : Icons.edit,
+              color: Colors.white,
+            ),
+            onPressed: _toggleEditMode,
+            tooltip: _isEditing ? 'Cancelar' : 'Editar informações',
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -81,7 +84,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ],
       ),
       body: Stack(
-        children:<Widget>[
+        children: <Widget>[
           //constrói um circulo à topo-direita
           Positioned(
             top: -80,
@@ -97,8 +100,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
 
           Positioned(
-            top: -70,
-            right: -80,
+            bottom: -70,
+            left: -80,
             child: Container(
               width: 250,
               height: 250,
@@ -108,8 +111,28 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
             ),
           ),
-        ]
-      )
+          SafeArea(
+            if(_isEditing)
+            Positioned.fill(
+              child: TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Container(
+                      color: Colors.black.withOpacity(0.3 * value),
+                      child: SingleChildScrollView(
+                        child: ,
+                      )
+                    )
+                  )
+                }
+              )
+            )),
+        ],
+      ),
     );
   }
 }
